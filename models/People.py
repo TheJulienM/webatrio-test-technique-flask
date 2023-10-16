@@ -16,3 +16,14 @@ class People(db.Model):
         self.firstname = firstname
         self.lastname = lastname
         self.birthdate = birthdate
+
+    def current_jobs(self):
+        return [job for job in self.jobs if job.end_date is None]
+
+    def serialize(self):
+        return {
+            'firstname': self.firstname,
+            'lastname': self.lastname,
+            'birthdate': self.birthdate,
+            'uuid': uuid.UUID(bytes=self.uuid)
+        }

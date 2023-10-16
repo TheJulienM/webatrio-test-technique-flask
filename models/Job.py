@@ -1,5 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
-from models.People import People, db
+from models.People import db
 
 
 class Job(db.Model):
@@ -10,3 +9,11 @@ class Job(db.Model):
     end_date = db.Column(db.DateTime)
     people_id = db.Column(db.Integer, db.ForeignKey('people.id'), nullable=False)
     people = db.relationship('People', backref=db.backref('jobs', lazy=True))
+
+    def serialize(self):
+        return {
+            'companyName': self.company_name,
+            'position': self.position,
+            'startDate': self.start_date,
+            'endDate': self.end_date,
+        }
